@@ -14,4 +14,5 @@ public class WeatherList {
     private List<Weather> weather;
     private Wind wind;
     private String dt_txt;
+    private Clouds clouds;
 }

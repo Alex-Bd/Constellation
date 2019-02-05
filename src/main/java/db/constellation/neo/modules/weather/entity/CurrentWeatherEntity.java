@@ -1,10 +1,7 @@
 package db.constellation.neo.modules.weather.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import db.constellation.neo.modules.weather.entity.currentWeather.Main;
-import db.constellation.neo.modules.weather.entity.currentWeather.Sys;
-import db.constellation.neo.modules.weather.entity.currentWeather.Weather;
-import db.constellation.neo.modules.weather.entity.currentWeather.Wind;
+import db.constellation.neo.modules.weather.entity.currentWeather.*;
 import lombok.Data;
 
 import java.util.List;
@@ -19,5 +16,5 @@ public class CurrentWeatherEntity {
     private Sys sys;
     private int id;
     private String name;
-
+    private Clouds clouds;
 }
