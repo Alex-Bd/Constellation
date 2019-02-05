@@ -4,11 +4,13 @@ import db.constellation.neo.modules.weather.WeatherApi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
+@CrossOrigin
 @Component
 public class WeatherHandler {
 
@@ -23,6 +25,7 @@ public class WeatherHandler {
 
         return ServerResponse.ok()
                 .contentType(MediaType.APPLICATION_JSON)
+                .header("Access-Control-Allow-Origin","*")
                 .body(BodyInserters.fromObject(
                       api.getWeather(api.cityFinder(request.queryParam("city").get()))
                        ));
@@ -31,6 +34,7 @@ public class WeatherHandler {
 
         return ServerResponse.ok()
                 .contentType(MediaType.APPLICATION_JSON)
+                .header("Access-Control-Allow-Origin","*")
                 .body(BodyInserters.fromObject(
                       api.getForecast(api.cityFinder(request.queryParam("city").get()))
                         ));
