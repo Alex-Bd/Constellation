@@ -12,11 +12,22 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 public class WeatherRouter {
 
     @Bean
-    public RouterFunction<ServerResponse> currentWeatherRoute(WeatherHandler weatherHandler) {
+    public RouterFunction<ServerResponse> weatherRoute(WeatherHandler weatherHandler) {
         return RouterFunctions
                 .route(RequestPredicates
-                        .GET("/getWeather")
+                        .GET("/Weather")
                         .and(RequestPredicates
                                 .accept(MediaType.APPLICATION_JSON)), weatherHandler::getWeather);
     }
+
+@Bean
+    public RouterFunction<ServerResponse> forecastRoute(WeatherHandler weatherHandler) {
+        return RouterFunctions
+                .route(RequestPredicates
+                        .GET("/Forecast")
+                        .and(RequestPredicates
+                                .accept(MediaType.APPLICATION_JSON)), weatherHandler::getForecast);
+    }
+
+
 }

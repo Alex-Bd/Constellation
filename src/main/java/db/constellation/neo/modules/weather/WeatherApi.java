@@ -4,24 +4,29 @@ import db.constellation.neo.modules.weather.cities.CityFinderService;
 
 import db.constellation.neo.modules.weather.entity.CurrentWeatherEntity;
 import db.constellation.neo.modules.weather.entity.ForecastWeatherEntity;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 
 @Service
-public class WeatherApi implements InitializingBean {
-   RestTemplate restTemplate  = new RestTemplate();
+public class WeatherApi{
+
+   private RestTemplate restTemplate  = new RestTemplate();
+
+
+   private WeatherCalls call;
+   private CityFinderService cityService;
 
    @Autowired
-   WeatherCalls call;
-   @Autowired
-   CityFinderService cityService;
+   public WeatherApi(WeatherCalls call,
+                     CityFinderService cityService){
+    this.call=call;
+    this.cityService=cityService;
+}
 
     public CurrentWeatherEntity getWeather(int location){
-       CurrentWeatherEntity weather = restTemplate.getForObject(call.getCurrentWeatherCall(location), CurrentWeatherEntity.class);
-       return weather;
+       return restTemplate.getForObject(call.getCurrentWeatherCall(location), CurrentWeatherEntity.class);
     }
 
     public int cityFinder(String cityName) {
@@ -29,12 +34,7 @@ public class WeatherApi implements InitializingBean {
     }
 
     public ForecastWeatherEntity getForecast(int location){
-        ForecastWeatherEntity forecast = restTemplate.getForObject(call.getDayForecast(location), ForecastWeatherEntity.class);
-        return forecast;
+        return restTemplate.getForObject(call.getDayForecast(location), ForecastWeatherEntity.class);
     }
 
-
-    @Override
-    public void afterPropertiesSet() throws Exception {
-    }
 }
