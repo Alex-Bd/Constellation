@@ -18,17 +18,6 @@ import java.net.URISyntaxException;
 public class MusicHandler {
    WebClient client = WebClient.create("http://localhost:8081");
 
-    public Mono<ServerResponse> getAll(ServerRequest request){
-        URI location = null;
-        System.out.println("hello");
-        try {
-           location = new URI("http://www.tankcsapda.hu/files/userfiles/Image/2013/tankcsapda_vivacomet.jpg");
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-        return ServerResponse.seeOther(location)
-                .header("Access-Control-Allow-Origin","*").build();
-    }
 
   public Mono<ServerResponse> getArtists(ServerRequest request){
       return ServerResponse.ok()
@@ -40,7 +29,6 @@ public class MusicHandler {
   }
 
    public Mono<ServerResponse> getSong(ServerRequest request){
-       WebClient client = WebClient.create("http://localhost:8081");
 
        client.get()
                .uri("getmusic/{artist}/{album}/{song}",request.pathVariables())

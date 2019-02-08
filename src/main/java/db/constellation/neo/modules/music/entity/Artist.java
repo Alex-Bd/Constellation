@@ -1,4 +1,4 @@
-package db.constellation.neo.modules.entity;
+package db.constellation.neo.modules.music.entity;
 
 import lombok.Data;
 
