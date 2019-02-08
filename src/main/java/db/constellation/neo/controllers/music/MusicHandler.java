@@ -10,16 +10,12 @@ import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-
 @Component
 @CrossOrigin
-public class MusicHandler {
-   WebClient client = WebClient.create("http://localhost:8081");
+class MusicHandler {
+   private WebClient client = WebClient.create("http://localhost:8081");
 
-
-  public Mono<ServerResponse> getArtists(ServerRequest request){
+  Mono<ServerResponse> getArtists(ServerRequest request){
       return ServerResponse.ok()
               .contentType(MediaType.APPLICATION_JSON)
               .header("Access-Control-Allow-Origin","*")
@@ -28,15 +24,7 @@ public class MusicHandler {
                       String.class));
   }
 
-   public Mono<ServerResponse> getSong(ServerRequest request){
-
-       client.get()
-               .uri("getmusic/{artist}/{album}/{song}",request.pathVariables())
-               .accept(MediaType.ALL)
-               .retrieve()
-               .bodyToMono(String.class)
-               .subscribe(person -> System.out.println("GET: " + person));
-
+   Mono<ServerResponse> getSong(ServerRequest request){
 
       return ServerResponse.ok()
               .contentType(MediaType.APPLICATION_JSON)

@@ -12,7 +12,6 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 @Configuration
 public class MusicRouter {
 
-
     @Bean
     public RouterFunction<ServerResponse> musicListRoute(MusicHandler musicHandler) {
         return RouterFunctions
