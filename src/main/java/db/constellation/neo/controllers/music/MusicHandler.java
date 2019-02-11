@@ -13,7 +13,7 @@ import java.net.URISyntaxException;
 @CrossOrigin
 class MusicHandler {
 
-    URI location;
+    private URI location;
 
     Mono<ServerResponse> getArtists(ServerRequest request) {
         try {
