@@ -15,7 +15,6 @@ public class WeatherApiTest {
     @Autowired
     WeatherApi api;
 
-
     @Test
     public void cityFinderTest(){
         assertEquals(716935,api.cityFinder("Nyiregyhaza"));
