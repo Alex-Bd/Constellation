@@ -20,18 +20,22 @@ public class MusicRouter {
                 .and(RequestPredicates
                 .accept(MediaType.APPLICATION_JSON)), musicHandler::getArtists);
     }
-
     @Bean
-    public RouterFunction<ServerResponse> songRoute(MusicHandler musicHandler) {
+    public RouterFunction<ServerResponse> getSongRoute(MusicHandler musicHandler) {
         return RouterFunctions
                 .route(RequestPredicates
                 .GET("/getsong/{artist}/{album}/{song}")
                 .and(RequestPredicates
                 .accept(MediaType.ALL)), musicHandler::getSong);
     }
-
-
-
+    @Bean
+    public RouterFunction<ServerResponse> addSongRoute(MusicHandler musicHandler) {
+        return RouterFunctions
+                .route(RequestPredicates
+                .POST("/addsong/{artist}/{album}/{song}")
+                .and(RequestPredicates
+                .accept(MediaType.ALL)), musicHandler::addSong);
+    }
 
 
 

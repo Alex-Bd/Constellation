@@ -1,38 +1,58 @@
 package db.constellation.neo.controllers.music;
 
-
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
 @Component
 @CrossOrigin
 class MusicHandler {
-   private WebClient client = WebClient.create("http://localhost:8081");
 
-  Mono<ServerResponse> getArtists(ServerRequest request){
-      return ServerResponse.ok()
-              .contentType(MediaType.APPLICATION_JSON)
-              .header("Access-Control-Allow-Origin","*")
-              .body(BodyInserters
-              .fromPublisher( client.get().uri("/getmusic").retrieve().bodyToMono(String.class),
-                      String.class));
-  }
+    URI location;
 
-   Mono<ServerResponse> getSong(ServerRequest request){
+    Mono<ServerResponse> getArtists(ServerRequest request){
+        try {
+            location = new URI("http://localhost:8081/music/getMusic");
+        } catch (URISyntaxException e) {
+            e.printStackTrace();}
 
-      return ServerResponse.ok()
-              .contentType(MediaType.APPLICATION_JSON)
-              .header("Access-Control-Allow-Origin","*")
-              .body(BodyInserters
-              .fromPublisher(client.get().uri("getmusic/{artist}/{album}/{song}",request.pathVariables()).retrieve().bodyToMono(String.class),
-                      String.class));
-  }
+        return ServerResponse
+                .permanentRedirect(location)
+                .build();
+    }
 
+    Mono<ServerResponse> getSong(ServerRequest request){
+        try {
+            location = new URI( ("http://localhost:8081/music/getSong/"
+                    +request.pathVariable("artist")+"/"
+                    +request.pathVariable("album")+"/"
+                    +request.pathVariable("song")).replaceAll(" ","%20"));
+        } catch (URISyntaxException e) {
+            e.printStackTrace();}
+        return ServerResponse
+                .permanentRedirect(location)
+                .build();
+    }
+
+    Mono<ServerResponse> addSong(ServerRequest request){
+        try {
+            location = new URI( ("http://localhost:8081/music/addSong/"
+                    +request.pathVariable("artist")+"/"
+                    +request.pathVariable("album")+"/"
+                    +request.pathVariable("song")).replaceAll(" ","%20"));
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+
+        return ServerResponse
+                .permanentRedirect(location)
+                .build();
+    }
 
 }
