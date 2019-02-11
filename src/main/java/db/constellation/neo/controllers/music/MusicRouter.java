@@ -2,7 +2,6 @@ package db.constellation.neo.controllers.music;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.server.RequestPredicates;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.RouterFunctions;
@@ -15,28 +14,9 @@ public class MusicRouter {
     @Bean
     public RouterFunction<ServerResponse> musicListRoute(MusicHandler musicHandler) {
         return RouterFunctions
-                .route(RequestPredicates
-                .GET("/getmusic")
-                .and(RequestPredicates
-                .accept(MediaType.APPLICATION_JSON)), musicHandler::getArtists);
+                .route(RequestPredicates.GET("/music/getMusic"), musicHandler::getArtists)
+                .andRoute(RequestPredicates.GET("/music/getSong/{artist}/{album}/{song}"),musicHandler::getSong)
+                .andRoute(RequestPredicates.GET("/music/addSong/{artist}/{album}/{song}"), musicHandler::addSong);
     }
-    @Bean
-    public RouterFunction<ServerResponse> getSongRoute(MusicHandler musicHandler) {
-        return RouterFunctions
-                .route(RequestPredicates
-                .GET("/getsong/{artist}/{album}/{song}")
-                .and(RequestPredicates
-                .accept(MediaType.ALL)), musicHandler::getSong);
-    }
-    @Bean
-    public RouterFunction<ServerResponse> addSongRoute(MusicHandler musicHandler) {
-        return RouterFunctions
-                .route(RequestPredicates
-                .POST("/addsong/{artist}/{album}/{song}")
-                .and(RequestPredicates
-                .accept(MediaType.ALL)), musicHandler::addSong);
-    }
-
-
 
 }
