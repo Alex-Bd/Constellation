@@ -15,7 +15,7 @@ class MusicHandler {
 
     private URI location;
 
-    Mono<ServerResponse> getArtists(ServerRequest request) {
+    Mono<ServerResponse> getMusic(ServerRequest request) {
         try {
             location = new URI("http://localhost:8081/music/getMusic");
         } catch (URISyntaxException e) {
@@ -26,6 +26,33 @@ class MusicHandler {
                 .permanentRedirect(location)
                 .build();
     }
+
+    Mono<ServerResponse> getArtist(ServerRequest request) {
+        try {
+            location = new URI(("http://localhost:8081/music/getArtist"
+                    + request.pathVariable("artist")));
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        return ServerResponse
+                .permanentRedirect(location)
+                .build();
+    }
+
+    Mono<ServerResponse> getAlbum(ServerRequest request) {
+        try {
+            location = new URI(("http://localhost:8081/music/getAlbum"
+                    + request.pathVariable("artist")+ "/"
+                    + request.pathVariable("album")));
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        return ServerResponse
+                .permanentRedirect(location)
+                .build();
+    }
+
+
 
     Mono<ServerResponse> getSong(ServerRequest request) {
         try {
@@ -46,7 +73,8 @@ class MusicHandler {
             location = new URI(("http://localhost:8081/music/addSong/"
                     + request.pathVariable("artist") + "/"
                     + request.pathVariable("album") + "/"
-                    + request.pathVariable("song")).replaceAll(" ", "%20"));
+                    + request.pathVariable("song")));
+            // .replaceAll(" ", "%20"
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
