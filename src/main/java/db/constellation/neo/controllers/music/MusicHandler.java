@@ -1,5 +1,6 @@
 package db.constellation.neo.controllers.music;
 
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.reactive.function.server.ServerRequest;
@@ -23,8 +24,9 @@ class MusicHandler {
         }
 
         return ServerResponse
-                .permanentRedirect(location)
-                .build();
+                .seeOther(location)
+                .header("Access-Control-Allow-Origin","*").build();
+
     }
 
     Mono<ServerResponse> getArtist(ServerRequest request) {
@@ -34,8 +36,10 @@ class MusicHandler {
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
+
         return ServerResponse
-                .permanentRedirect(location)
+                .seeOther(location)
+                .header("Access-Control-Allow-Origin","*")
                 .build();
     }
 
@@ -48,7 +52,8 @@ class MusicHandler {
             e.printStackTrace();
         }
         return ServerResponse
-                .permanentRedirect(location)
+                .seeOther(location)
+                .header("Access-Control-Allow-Origin","*")
                 .build();
     }
 
@@ -64,7 +69,8 @@ class MusicHandler {
             e.printStackTrace();
         }
         return ServerResponse
-                .permanentRedirect(location)
+                .seeOther(location)
+                .header("Access-Control-Allow-Origin","*")
                 .build();
     }
 
@@ -80,7 +86,8 @@ class MusicHandler {
         }
 
         return ServerResponse
-                .permanentRedirect(location)
+                .seeOther(location)
+                .header("Access-Control-Allow-Origin","*")
                 .build();
     }
 
