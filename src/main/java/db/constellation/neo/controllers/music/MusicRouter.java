@@ -19,9 +19,9 @@ public class MusicRouter {
                 .andRoute(RequestPredicates.GET("/music/getAlbum/{artist}/{album}/{song}"),musicHandler::getAlbum)
                 .andRoute(RequestPredicates.GET("/music/getSong/{artist}/{album}/{song}"),musicHandler::getSong)
 
-                .andRoute(RequestPredicates.POST("/music/addArtist/{artist}"),musicHandler::getSong)
-                .andRoute(RequestPredicates.POST("/music/getAlbum/{artist}/{album}"),musicHandler::getSong)
-                .andRoute(RequestPredicates.POST("/music/addSong/{artist}/{album}/{song}"), musicHandler::addSong)
+                .andRoute(RequestPredicates.POST("/music/addArtist/{artist}"),musicHandler::addArtist)
+                .andRoute(RequestPredicates.POST("/music/addAlbum/{artist}/{album}"),musicHandler::addAlbum)
+                .andRoute(RequestPredicates.POST("/music/addSong"), musicHandler::addSong)
                 ;
     }
 

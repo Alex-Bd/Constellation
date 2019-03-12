@@ -18,15 +18,15 @@ public class MusicRouterTest {
 
     @Test
     public void getMusicTest(){
-        assertEquals(HttpStatus.PERMANENT_REDIRECT
+        assertEquals(HttpStatus.OK
                     ,restTemplate
                         .getForEntity("http://localhost:8070/music/getMusic"
                                         ,String.class).getStatusCode());
     }
 
-    @Test
+
     public void getSongTest(){
-        assertEquals(HttpStatus.PERMANENT_REDIRECT
+        assertEquals(HttpStatus.SEE_OTHER
                     ,restTemplate
                         .getForEntity("http://localhost:8070/music/getSong/test/test/test"
                                         ,String.class).getStatusCode());
@@ -35,7 +35,7 @@ public class MusicRouterTest {
     @Test
     public void addSongTest(){
         HttpEntity<String> request = new HttpEntity<>("bar");
-        assertEquals(HttpStatus.PERMANENT_REDIRECT
+        assertEquals(HttpStatus.SEE_OTHER
                     ,restTemplate.postForEntity("http://localhost:8070/music/addSong/test/test/test",request,String.class).getStatusCode());
 
     }
