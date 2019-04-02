@@ -4,6 +4,8 @@
 .gitignore
 mvnw
 mvnw.cmd
+/info
+/.mvn
 
 ### STS ###
 .apt_generated
