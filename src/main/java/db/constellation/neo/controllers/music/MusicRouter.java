@@ -15,14 +15,19 @@ public class MusicRouter {
     public RouterFunction<ServerResponse> musicListRoute(MusicHandler musicHandler) {
         return RouterFunctions
                 .route(RequestPredicates.GET("/music/getMusic"), musicHandler::getMusic)
-                .andRoute(RequestPredicates.GET("/music/getArtist/{artist}/{album}/{song}"),musicHandler::getArtist)
-                .andRoute(RequestPredicates.GET("/music/getAlbum/{artist}/{album}/{song}"),musicHandler::getAlbum)
+                .andRoute(RequestPredicates.GET("/music/getArtist/{artist}"),musicHandler::getArtist)
+                .andRoute(RequestPredicates.GET("/music/getAlbum/{artist}/{album}"),musicHandler::getAlbum)
                 .andRoute(RequestPredicates.GET("/music/getSong/{artist}/{album}/{song}"),musicHandler::getSong)
 
-                .andRoute(RequestPredicates.POST("/music/addArtist/{artist}"),musicHandler::addArtist)
-                .andRoute(RequestPredicates.POST("/music/addAlbum/{artist}/{album}"),musicHandler::addAlbum)
-                .andRoute(RequestPredicates.POST("/music/addSong"), musicHandler::addSong)
-                ;
+
+                .andRoute(RequestPredicates.GET("/music/checkArtist/{artist}"), musicHandler::checkArtist)
+                .andRoute(RequestPredicates.POST("/music/addArtist/{id}/{artist}"),musicHandler::addArtist)
+
+                .andRoute(RequestPredicates.GET("/music/checkAlbum/{artist}/{album}"), musicHandler::checkAlbum)
+                .andRoute(RequestPredicates.POST("/music/addAlbum/{artist}/{id}/{album}"),musicHandler::addAlbum)
+
+                .andRoute(RequestPredicates.GET("/music/checkSong/{artist}/{album}/{song}"), musicHandler::checkSong)
+                .andRoute(RequestPredicates.POST("/music/addSong/{artist}/{album}/{id}/{song}"), musicHandler::addSong);
     }
 
 }

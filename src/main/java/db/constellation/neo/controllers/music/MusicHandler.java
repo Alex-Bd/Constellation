@@ -1,155 +1,100 @@
 package db.constellation.neo.controllers.music;
 
-import org.apache.http.client.utils.URIBuilder;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.reactive.function.BodyInserters;
+import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 
 @Component
 @CrossOrigin
 class MusicHandler {
 
-    private URI location;
-
+    private WebClient client = WebClient.create("http://35.204.97.47:8081/music");
 
     Mono<ServerResponse> getMusic(ServerRequest request) {
-        try {
-            location = new URI("http://localhost:8081/music/getMusic");
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-
-        return ServerResponse
-                .temporaryRedirect(location)
-                .header("Access-Control-Allow-Origin","*").build();
+        return ServerResponse.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Access-Control-Allow-Origin", "*")
+                .body(BodyInserters
+                        .fromPublisher(client.get().uri("/getMusic").retrieve().bodyToMono(String.class), String.class));
     }
 
     Mono<ServerResponse> getArtist(ServerRequest request) {
-        try {
-            location = new URI(("http://localhost:8081/music/getArtist"
-                    + request.pathVariable("artist")));
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-
-        return ServerResponse
-                .temporaryRedirect(location)
-                .header("Access-Control-Allow-Origin","*")
-                .build();
+        return ServerResponse.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Access-Control-Allow-Origin", "*")
+                .body(BodyInserters
+                        .fromPublisher(client.get().uri("/getArtist/" + request.pathVariable("artist")).retrieve().bodyToMono(String.class), String.class));
     }
 
     Mono<ServerResponse> getAlbum(ServerRequest request) {
-        try {
-            location = new URI(("http://localhost:8081/music/getAlbum"
-                    + request.pathVariable("artist")+ "/"
-                    + request.pathVariable("album")));
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-        return ServerResponse
-                .temporaryRedirect(location)
-                .header("Access-Control-Allow-Origin","*")
-                .build();
+        return ServerResponse.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Access-Control-Allow-Origin", "*")
+                .body(BodyInserters
+                        .fromPublisher(client.get().uri("/getAlbum/" + request.pathVariable("artist") + "/" + request.pathVariable("album")).retrieve().bodyToMono(String.class), String.class));
     }
 
-
-
     Mono<ServerResponse> getSong(ServerRequest request) {
-        try {
-            location = new URI(("http://localhost:8081/music/getSong/"
-                    + request.pathVariable("artist") + "/"
-                    + request.pathVariable("album") + "/"
-                    + request.pathVariable("song")).replaceAll(" ", "%20"));
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-        return ServerResponse
-                .temporaryRedirect(location)
-                .header("Access-Control-Allow-Origin","*")
-                .build();
+        return ServerResponse.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Access-Control-Allow-Origin", "*")
+                .body(BodyInserters
+                        .fromPublisher(client.get().uri("/getSong/" + request.pathVariable("artist") + "/" + request.pathVariable("album") + "/" + request.pathVariable("song")).retrieve().bodyToMono(String.class), String.class));
+    }
+
+    Mono<ServerResponse> checkArtist(ServerRequest request) {
+        return ServerResponse.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Access-Control-Allow-Origin", "*")
+                .body(BodyInserters
+                        .fromPublisher(client.get().uri("/checkArtist/"+request.pathVariable("artist")).retrieve().bodyToMono(Boolean.class), Boolean.class));
     }
 
     Mono<ServerResponse> addArtist(ServerRequest request) {
-        try {
-            location = new URIBuilder()
-                    .setScheme("http")
-                    .setHost("localhost")
-                    .setPort(8081)
-                    .setPath("/music/addArtist/"+request.pathVariable("artist"))
-                    .build();
-
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-        return ServerResponse
-                .temporaryRedirect(location)
-                .header("Access-Control-Allow-Origin","*")
-                .build();
-    }
-    Mono<ServerResponse> addAlbum(ServerRequest request) {
-        try {
-            location = new URIBuilder()
-                    .setScheme("http")
-                    .setHost("localhost")
-                    .setPort(8081)
-                    .setPath("/music/addAlbum/"+request.pathVariable("artist")+"/"+request.pathVariable("album"))
-                    .build();
-
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-        return ServerResponse
-                .temporaryRedirect(location)
-                .header("Access-Control-Allow-Origin","*")
-                .build();
-    }
-
-
-//Not implemented..
-    Mono<ServerResponse> addSong(ServerRequest request) {
-
-
         return ServerResponse.ok()
+                .contentType(MediaType.APPLICATION_JSON)
                 .header("Access-Control-Allow-Origin", "*")
-                .body(Mono.just("SUCCESS"), String.class);
+                .body(BodyInserters
+                        .fromPublisher(client.post().uri("/addArtist/"+request.pathVariable("id")+"/"+request.pathVariable("artist")).retrieve().bodyToMono(Boolean.class), Boolean.class));
+    }
 
+    Mono<ServerResponse> checkAlbum(ServerRequest request) {
+        return ServerResponse.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Access-Control-Allow-Origin", "*")
+                .body(BodyInserters
+                        .fromPublisher(client.get().uri("/checkAlbum/"+request.pathVariable("artist")+"/"+request.pathVariable("album")).retrieve().bodyToMono(Boolean.class), Boolean.class));
+    }
 
+    Mono<ServerResponse> addAlbum(ServerRequest request) {
+        return ServerResponse.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Access-Control-Allow-Origin", "*")
+                .body(BodyInserters
+                        .fromPublisher(client.post().uri("/addAlbum/"+request.pathVariable("artist")+"/"+request.pathVariable("id")+"/"+request.pathVariable("album")).retrieve().bodyToMono(Boolean.class), Boolean.class));
+    }
 
-/*
-        try {
-            location =new URI( "");
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-        MultipartBodyBuilder builder = new MultipartBodyBuilder();
+    Mono<ServerResponse> checkSong(ServerRequest request) {
+        return ServerResponse.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Access-Control-Allow-Origin", "*")
+                .body(BodyInserters
+                        .fromPublisher(client.get().uri("/checkSong/"+request.pathVariable("artist")+"/"+request.pathVariable("album")+"/"+request.pathVariable("song")).retrieve().bodyToMono(Boolean.class), Boolean.class));
+    }
 
-        return request.body(BodyExtractors.toMultipartData()).flatMap(p -> {
-            p.toSingleValueMap().keySet().stream().forEach(c -> {
-                Part fp =  p.toSingleValueMap().get(c);
-                   // File temp = File.createTempFile(fp.filename(),".mp3");
-                   // fp.transferTo(temp);
-                    builder.part(c, );
-            });
+    Mono<ServerResponse> addSong(ServerRequest request) {
+        return ServerResponse.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Access-Control-Allow-Origin", "*")
+                .body(BodyInserters
+                        .fromPublisher(client.post().uri("/addSong/"+request.pathVariable("artist")+"/"+request.pathVariable("album")+"/"+request.pathVariable("id")+"/"+request.pathVariable("song")).retrieve().bodyToMono(Boolean.class), Boolean.class));
+    }
 
-            WebClient client = WebClient.create("");
-            client.post()
-                    .contentType(MediaType.MULTIPART_FORM_DATA)
-                    .syncBody(builder.build())
-                    .exchange()
-                    .flatMap(res -> res.bodyToMono(String.class)).subscribe();
-
-            return ServerResponse.ok()
-                    .header("Access-Control-Allow-Origin", "*")
-                    .body(Mono.just("SUCCESS"), String.class);
-        });*/
-
-
-
-}
 
 }
