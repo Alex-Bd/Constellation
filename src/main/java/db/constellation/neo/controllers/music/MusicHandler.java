@@ -49,11 +49,12 @@ class MusicHandler {
     }
 
     Mono<ServerResponse> checkArtist(ServerRequest request) {
-        return ServerResponse.ok()
-                .contentType(MediaType.APPLICATION_JSON)
-                .header("Access-Control-Allow-Origin", "*")
-                .body(BodyInserters
-                        .fromPublisher(client.get().uri("/checkArtist/"+request.pathVariable("artist")).retrieve().bodyToMono(Boolean.class), Boolean.class));
+        Mono<Boolean> state = client.get().uri("/checkArtist/" + request.pathVariable("artist")).retrieve().bodyToMono(Boolean.class);
+        return ServerResponse.ok().body(
+                BodyInserters.fromPublisher(
+                        client.get().uri("/checkArtist/" + request.pathVariable("artist")).retrieve().bodyToMono(Boolean.class), Boolean.class));
+
+
     }
 
     Mono<ServerResponse> addArtist(ServerRequest request) {
@@ -61,7 +62,7 @@ class MusicHandler {
                 .contentType(MediaType.APPLICATION_JSON)
                 .header("Access-Control-Allow-Origin", "*")
                 .body(BodyInserters
-                        .fromPublisher(client.post().uri("/addArtist/"+request.pathVariable("id")+"/"+request.pathVariable("artist")).retrieve().bodyToMono(Boolean.class), Boolean.class));
+                        .fromPublisher(client.post().uri("/addArtist/" + request.pathVariable("id") + "/" + request.pathVariable("artist")).retrieve().bodyToMono(String.class), String.class));
     }
 
     Mono<ServerResponse> checkAlbum(ServerRequest request) {
@@ -69,7 +70,7 @@ class MusicHandler {
                 .contentType(MediaType.APPLICATION_JSON)
                 .header("Access-Control-Allow-Origin", "*")
                 .body(BodyInserters
-                        .fromPublisher(client.get().uri("/checkAlbum/"+request.pathVariable("artist")+"/"+request.pathVariable("album")).retrieve().bodyToMono(Boolean.class), Boolean.class));
+                        .fromPublisher(client.get().uri("/checkAlbum/" + request.pathVariable("artist") + "/" + request.pathVariable("album")).retrieve().bodyToMono(String.class), String.class));
     }
 
     Mono<ServerResponse> addAlbum(ServerRequest request) {
@@ -77,7 +78,7 @@ class MusicHandler {
                 .contentType(MediaType.APPLICATION_JSON)
                 .header("Access-Control-Allow-Origin", "*")
                 .body(BodyInserters
-                        .fromPublisher(client.post().uri("/addAlbum/"+request.pathVariable("artist")+"/"+request.pathVariable("id")+"/"+request.pathVariable("album")).retrieve().bodyToMono(Boolean.class), Boolean.class));
+                        .fromPublisher(client.post().uri("/addAlbum/" + request.pathVariable("artist") + "/" + request.pathVariable("id") + "/" + request.pathVariable("album")).retrieve().bodyToMono(String.class), String.class));
     }
 
     Mono<ServerResponse> checkSong(ServerRequest request) {
@@ -85,7 +86,7 @@ class MusicHandler {
                 .contentType(MediaType.APPLICATION_JSON)
                 .header("Access-Control-Allow-Origin", "*")
                 .body(BodyInserters
-                        .fromPublisher(client.get().uri("/checkSong/"+request.pathVariable("artist")+"/"+request.pathVariable("album")+"/"+request.pathVariable("song")).retrieve().bodyToMono(Boolean.class), Boolean.class));
+                        .fromPublisher(client.get().uri("/checkSong/" + request.pathVariable("artist") + "/" + request.pathVariable("album") + "/" + request.pathVariable("song")).retrieve().bodyToMono(String.class), String.class));
     }
 
     Mono<ServerResponse> addSong(ServerRequest request) {
@@ -93,7 +94,7 @@ class MusicHandler {
                 .contentType(MediaType.APPLICATION_JSON)
                 .header("Access-Control-Allow-Origin", "*")
                 .body(BodyInserters
-                        .fromPublisher(client.post().uri("/addSong/"+request.pathVariable("artist")+"/"+request.pathVariable("album")+"/"+request.pathVariable("id")+"/"+request.pathVariable("song")).retrieve().bodyToMono(Boolean.class), Boolean.class));
+                        .fromPublisher(client.post().uri("/addSong/" + request.pathVariable("artist") + "/" + request.pathVariable("album") + "/" + request.pathVariable("id") + "/" + request.pathVariable("song")).retrieve().bodyToMono(String.class), String.class));
     }
 
 
