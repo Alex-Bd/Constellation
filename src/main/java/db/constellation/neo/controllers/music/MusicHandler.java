@@ -52,8 +52,6 @@ class MusicHandler {
         return ServerResponse.ok().header("Access-Control-Allow-Origin", "*").body(
                 BodyInserters.fromPublisher(
                         client.get().uri("/checkArtist/" + request.pathVariable("artist")).retrieve().bodyToMono(Boolean.class), Boolean.class));
-
-
     }
 
     Mono<ServerResponse> addArtist(ServerRequest request) {
@@ -63,6 +61,15 @@ class MusicHandler {
                 .body(BodyInserters
                         .fromPublisher(client.post().uri("/addArtist/" + request.pathVariable("id") + "/" + request.pathVariable("artist")).retrieve().bodyToMono(String.class), String.class));
     }
+    Mono<ServerResponse> changeArtistName(ServerRequest request) {
+        return ServerResponse.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Access-Control-Allow-Origin", "*")
+                .body(BodyInserters
+                        .fromPublisher(client.patch().uri("/changeArtistName/" + request.pathVariable("id") + "/" + request.pathVariable("name")).retrieve().bodyToMono(String.class), String.class));
+    }
+
+
 
     Mono<ServerResponse> checkAlbum(ServerRequest request) {
         return ServerResponse.ok()
