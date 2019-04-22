@@ -49,8 +49,7 @@ class MusicHandler {
     }
 
     Mono<ServerResponse> checkArtist(ServerRequest request) {
-        Mono<Boolean> state = client.get().uri("/checkArtist/" + request.pathVariable("artist")).retrieve().bodyToMono(Boolean.class);
-        return ServerResponse.ok().body(
+        return ServerResponse.ok().header("Access-Control-Allow-Origin", "*").body(
                 BodyInserters.fromPublisher(
                         client.get().uri("/checkArtist/" + request.pathVariable("artist")).retrieve().bodyToMono(Boolean.class), Boolean.class));
 
