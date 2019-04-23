@@ -69,7 +69,7 @@ class MusicHandler {
                 .body(BodyInserters
                         .fromPublisher(client.post().uri("/addArtist/" + request.pathVariable("id") + "/" + request.pathVariable("artist")).retrieve().bodyToMono(String.class), String.class));
     }
-    @CrossOrigin
+
     Mono<ServerResponse> changeArtistName(ServerRequest request) {
         return ServerResponse.ok()
                 .contentType(MediaType.APPLICATION_JSON)
