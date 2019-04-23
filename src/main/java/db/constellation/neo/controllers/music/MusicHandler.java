@@ -16,6 +16,12 @@ class MusicHandler {
 
     private WebClient client = WebClient.create("http://35.204.97.47:8081/music");
 
+    Mono<ServerResponse> PreFlight(ServerRequest request) {
+        return ServerResponse.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Access-Control-Allow-Origin", "*")
+                .header("Access-Control-Request-Method", "*").body(BodyInserters.empty());
+    }
     Mono<ServerResponse> getMusic(ServerRequest request) {
         return ServerResponse.ok()
                 .contentType(MediaType.APPLICATION_JSON)
@@ -70,12 +76,7 @@ class MusicHandler {
                         .fromPublisher(client.patch().uri("/changeArtistName/" + request.pathVariable("id") + "/" + request.pathVariable("name")).retrieve().bodyToMono(String.class), String.class));
     }
 
-    Mono<ServerResponse> changeArtistNamePreFlight(ServerRequest request) {
-        return ServerResponse.ok()
-                .contentType(MediaType.APPLICATION_JSON)
-                .header("Access-Control-Allow-Origin", "*")
-                .header("Access-Control-Request-Method", "PATCH").body(BodyInserters.empty());
-    }
+
 
 
     Mono<ServerResponse> checkAlbum(ServerRequest request) {
