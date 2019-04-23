@@ -15,7 +15,7 @@ public class MusicRouter {
     @Bean
     public RouterFunction<ServerResponse> musicListRoute(MusicHandler musicHandler) {
         return RouterFunctions
-                .route(RequestPredicates.OPTIONS("/*"),musicHandler::PreFlight)
+                .route(RequestPredicates.OPTIONS("/music/changeArtistName/{id}/{name}"),musicHandler::PreFlight)
                 .andRoute(RequestPredicates.GET("/music/getMusic"), musicHandler::getMusic)
                 .andRoute(RequestPredicates.GET("/music/getArtist/{artist}"),musicHandler::getArtist)
                 .andRoute(RequestPredicates.GET("/music/getAlbum/{artist}/{album}"),musicHandler::getAlbum)
