@@ -61,6 +61,7 @@ class MusicHandler {
                 .body(BodyInserters
                         .fromPublisher(client.post().uri("/addArtist/" + request.pathVariable("id") + "/" + request.pathVariable("artist")).retrieve().bodyToMono(String.class), String.class));
     }
+
     Mono<ServerResponse> changeArtistName(ServerRequest request) {
         return ServerResponse.ok()
                 .contentType(MediaType.APPLICATION_JSON)
@@ -69,6 +70,11 @@ class MusicHandler {
                         .fromPublisher(client.patch().uri("/changeArtistName/" + request.pathVariable("id") + "/" + request.pathVariable("name")).retrieve().bodyToMono(String.class), String.class));
     }
 
+    Mono<ServerResponse> changeArtistNamePreFlight(ServerRequest request) {
+        return ServerResponse.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Access-Control-Allow-Origin", "*").body(BodyInserters.empty());
+    }
 
 
     Mono<ServerResponse> checkAlbum(ServerRequest request) {
