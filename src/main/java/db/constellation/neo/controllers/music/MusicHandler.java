@@ -73,7 +73,8 @@ class MusicHandler {
     Mono<ServerResponse> changeArtistNamePreFlight(ServerRequest request) {
         return ServerResponse.ok()
                 .contentType(MediaType.APPLICATION_JSON)
-                .header("Access-Control-Allow-Origin", "*").body(BodyInserters.empty());
+                .header("Access-Control-Allow-Origin", "*")
+                .header("Access-Control-Request-Method", "PATCH").body(BodyInserters.empty());
     }
 
 
